@@ -3,8 +3,14 @@ version: '3.6'
 x-build-args: &build_args
   DEBIAN_FRONTEND: noninteractive
   DEBCONF_NOWARNINGS: "yes"
+  # TIMEZONE: Etc/UTC
   TIMEZONE: Asia/Tokyo
   VERSION_GLPI: 9.4.3
+  LOCALEDEF_CHARMAP_FILE: UTF-8
+  # LOCALEDEF_INPUT_FILE: en_US
+  # LOCALEDEF_OUTPUT_PATH: /usr/lib/locale/en_US.utf8
+  LOCALEDEF_INPUT_FILE: ja_JP
+  LOCALEDEF_OUTPUT_PATH: /usr/lib/locale/ja_JP.UTF-8
 
 services:
   glpi:
@@ -13,9 +19,10 @@ services:
       target: production
       args:
         <<: *build_args
-    image: "glpi-production"
+    image: "glpi"
     restart: always
     container_name : glpi
+    user: www-user
     env_file: .env
     ports:
       - "80:80"
@@ -27,6 +34,8 @@ services:
       - glpi-install:/var/www/html/glpi/install
     depends_on: 
       - mysql
+
+  
 
   mysql:
     image: mysql:5.7
