@@ -22,7 +22,7 @@ services:
     image: "glpi"
     restart: always
     container_name : glpi
-    user: www-user
+#    user: www-user
     env_file: .env
     ports:
       - "80:80"
